@@ -3,10 +3,19 @@ from bokeh.models import ColumnDataSource, HoverTool, Select
 from bokeh.plotting import figure
 from bokeh.transform import factor_cmap
 from bokeh.layouts import row, column
+from bokeh.palettes import viridis
 import pandas as pd
 
 df = pd.read_csv('df.csv', sep=";")
 df['aar'] = df['intervall_ar'].str[0:4].astype(int)
+
+TOOLTIPS=[
+    ("Antall", "@elever"),
+    ("Year", "@aar"),
+    ("$", "@andel_elever_prosent")
+]
+
+palette = ["#"]
 
 def create_plot():
     p = figure(plot_height=400, plot_width=800)
@@ -14,10 +23,11 @@ def create_plot():
     p.yaxis.axis_label = "Andel"
     
     df2 = df.loc[ (df['kjonn']==kjonnselect.value) & (df['fullforingsgrad'] == fullfselect.value) & (df['studieretning_utdanningsprogram']==studretnselect.value)]
-    
-    print(len(df2))
-    source = ColumnDataSource(data=df2)
-    p.circle(x='aar', y='elever', source=source)
+    dfl = df2.groupby('foreldrenes_utdanningsniva')['elever'].apply(list)
+    dflaar = df2.groupby('foreldrenes_utdanningsniva')['aar'].apply(list)
+
+    #source = ColumnDataSource(data={'aar': dflaar, 'elever': dfl, 'palette': viridis(6) })
+    p.multi_line(xs=dflaar, ys=dfl, color=viridis(6) )
     return(p)
 
 def update_plot(attr, old, new):
