@@ -3,7 +3,7 @@ from bokeh.models import ColumnDataSource, HoverTool, Select
 from bokeh.plotting import figure
 from bokeh.transform import factor_cmap
 from bokeh.layouts import row, column
-from bokeh.palettes import viridis
+from bokeh.palettes import colorblind
 import pandas as pd
 
 
@@ -21,28 +21,24 @@ TOOLTIPS=[
     ("Antall", "@elever"),
     ("År", "@aar"),
     ("Prosent", "@andel_elever_prosent"),
-    ("Foreldrenes utdanning", "@forutd"),
-    ("Farge", "$color")
+    ("Foreldrenes utdanning", "@foreldrenes_utdanningsniva")
 ]
 
-#viridis_dict = {k: v for k, v in zip(sorted(set(df['foreldrenes_utdanningsniva'])), viridis(6))}
-df['foreldrefarge'] = create_col_column(viridis(6), df['foreldrenes_utdanningsniva'])
+
 
 def create_plot():
-    p = figure(plot_height=400, plot_width=800, tooltips=TOOLTIPS, toolbar_location=None)
+    p = figure(plot_height=400, plot_width=950, tooltips=TOOLTIPS, toolbar_location=None)
     p.xaxis.axis_label = "Skoleår"
     p.yaxis.axis_label = "Andel"
     
     # Apply list on grouped dataframe returns list of lists - must be run on each variable.
-    df2 = df.loc[ (df['kjonn']==kjonnselect.value) & (df['fullforingsgrad'] == fullfselect.value) & (df['studieretning_utdanningsprogram']==studretnselect.value)].groupby('foreldrenes_utdanningsniva')
-    dfl = df2['elever'].apply(list)
-    dflaar = df2['aar'].apply(list)
-    dflandel = df2['andel_elever_prosent'].apply(list)
-    dfl_forutd = df2['foreldrenes_utdanningsniva'].apply(list)
-    dflfarge = df2['foreldrefarge'].apply(list)
+    df2 = df.loc[ (df['kjonn']==kjonnselect.value) & (df['fullforingsgrad'] == fullfselect.value) & (df['studieretning_utdanningsprogram']==studretnselect.value) ].groupby('foreldrenes_utdanningsniva')
 
-    source = ColumnDataSource(data={'aar': dflaar, 'elever': dfl, 'palette': dflfarge, 'forutd': dfl_forutd, 'andel_elever_prosent':  dflandel})
-    p.multi_line(xs=dflaar, ys=dfl, color=viridis(6) )
+    for utdniv, color in zip(set(df['foreldrenes_utdanningsniva']), colorblind['Colorblind'][6] ):
+        dfgroup = df2.get_group(utdniv)
+        source = ColumnDataSource(data=dfgroup)
+        p.line(x="aar", y="elever", color=color, source=source, line_width=3)
+
     return(p)
 
 def update_plot(attr, old, new):
