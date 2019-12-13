@@ -9,6 +9,11 @@ steps:
   - 'apply'
   - '-f'
   - 'deployment.yaml'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=europe-north1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=shinyhampster'
+  - 'PROJECT_ID=$PROJECT_ID'
+  - 'SHORT_SHA=$SHORT_SHA'
 
 # Update Deploy
 # - name: 'gcr.io/cloud-builders/kubectl'
