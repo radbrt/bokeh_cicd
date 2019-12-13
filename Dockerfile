@@ -1,11 +1,9 @@
 FROM continuumio/miniconda3
 
-MAINTAINER Antonia Elek <antoniaelek at hotmail.com>
+COPY requirements.txt /requirements.txt
+COPY app /app
+RUN pip install -r requirements.txt
 
-RUN conda install -y nomkl bokeh numpy pandas
+EXPOSE 80
 
-VOLUME '/app'
-
-EXPOSE 5006
-
-ENTRYPOINT ["bokeh","serve","/app/bokeh/utdstat.py","--allow-websocket-origin=*"]
+ENTRYPOINT ["bokeh","serve","/app/utdstat.py","--allow-websocket-origin=*", "--port 80", "--address 0.0.0.0"]
