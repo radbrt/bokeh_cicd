@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: bokeh
-        image: gcr.io/GOOGLE_CLOUD_PROJECT/github.com/radbrt/bokeh_cicd:latest
+        image: gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:latest
         imagePullPolicy: "Always"
   strategy:
     type: RollingUpdate
