@@ -15,7 +15,7 @@ spec:
       containers:
       - name: bokeh
         image: gcr.io/translatenav/github.com/radbrt/bokeh_cicd:latest
-        image: gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:latest
+        image: gcr.io/translatenav/github.com/radbrt/bokeh_cicd:latest
   strategy:
     type: RollingUpdate
     rollingUpdate:
