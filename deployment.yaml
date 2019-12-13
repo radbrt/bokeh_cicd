@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bokehweb
+spec:
+  selector:
+    matchLabels:
+      app: bokehweb
+  replicas: 3
+  template: # template for the pods
+    metadata:
+      labels:
+        app: bokehweb
+    spec:
+      containers:
+      - name: bokeh
+        image: gcr.io/GOOGLE_CLOUD_PROJECT/github.com/radbrt/bokeh_cicd:latest
+        imagePullPolicy: "Always"
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bokehnet
+spec:
+  selector:
+    app: bokehweb
+  ports:
+    - name: bokehport
+      port: 3838
+  type: LoadBalancer
