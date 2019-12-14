@@ -15,9 +15,6 @@ def create_col_column(colors, column):
     return(colcols)
 
 
-df = pd.read_csv('df.csv', sep=";")
-df['aar'] = df['intervall_ar'].str[0:4].astype(int)
-
 TOOLTIPS=[
     ("Antall", "@elever"),
     ("År", "@aar"),
@@ -27,6 +24,9 @@ TOOLTIPS=[
 
 def bokehapp(doc):
 
+
+    df = pd.read_csv('df.csv', sep=";")
+    df['aar'] = df['intervall_ar'].str[0:4].astype(int)
 
     def callback(attr, old, new):
         df2 = df.loc[ (df['kjonn']==kjonnselect.value) & (df['fullforingsgrad'] == fullfselect.value) & (df['studieretning_utdanningsprogram']==studretnselect.value)].groupby('foreldrenes_utdanningsniva')
@@ -54,10 +54,8 @@ def bokehapp(doc):
     p.xaxis.axis_label = "Skoleår"
     p.yaxis.axis_label = "Andel"
 
-    
     # Apply list on grouped dataframe returns list of lists - must be run on each variable.
     df2 = df.loc[ (df['kjonn']==kjonnselect.value) & (df['fullforingsgrad'] == fullfselect.value) & (df['studieretning_utdanningsprogram']==studretnselect.value) ].groupby('foreldrenes_utdanningsniva')
-
 
     controls = column(kjonnselect, fullfselect, studretnselect, width=300)
 
@@ -73,6 +71,7 @@ def bokehapp(doc):
 
 server = Server({'/': bokehapp}, num_procs=1)
 server.start()
+
 
 if __name__ == '__main__':
 #    print('Opening Bokeh application on http://localhost:5006/')
