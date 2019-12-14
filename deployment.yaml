@@ -33,6 +33,6 @@ spec:
     app: bokehweb
   ports:
     - name: bokehport
-      port: 80
-      targetPort: 5006
+      port: 5006
+ #     targetPort: 5006
   type: LoadBalancer
