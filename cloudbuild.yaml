@@ -15,7 +15,7 @@ steps:
 #   - 'PROJECT_ID=$PROJECT_ID'
 #   - 'SHORT_SHA=$SHORT_SHA'
 
-Update Deploy
+# Update Deploy
 - name: 'gcr.io/cloud-builders/kubectl'
   id: Deploy
   args: ['set', 'image', 'deployment/bokehweb', 'shiny=gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:$SHORT_SHA']
