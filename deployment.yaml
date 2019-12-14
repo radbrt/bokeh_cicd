@@ -34,5 +34,5 @@ spec:
   ports:
     - name: bokehport
       port: 80
-      targetPort: 5006
+      containerPort: 5006
   type: LoadBalancer
