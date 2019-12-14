@@ -6,4 +6,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5006
 
-ENTRYPOINT ["bokeh","serve","/app/utdstat.py --allow-websocket-origin=* --address 0.0.0.0"]
+ENTRYPOINT ["bokeh","serve", "/app/utdstat.py", "--allow-websocket-origin=*", "--address 0.0.0.0"]
