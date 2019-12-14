@@ -18,7 +18,7 @@ steps:
 # Update Deploy
 - name: 'gcr.io/cloud-builders/kubectl'
   id: Deploy
-  args: ['set', 'image', 'deployment/bokehweb', 'shiny=gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:$SHORT_SHA']
+  args: ['set', 'image', 'deployment/bokehweb', 'bokeh=gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:$SHORT_SHA']
   env:
     - 'CLOUDSDK_COMPUTE_ZONE=europe-north1-a'
     - 'CLOUDSDK_CONTAINER_CLUSTER=shinyhampster'
