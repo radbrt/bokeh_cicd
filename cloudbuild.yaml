@@ -3,17 +3,17 @@ steps:
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:$SHORT_SHA', '-t', 'gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:latest', '.' ]
 
 # Initial Deployment
-# - name: 'gcr.io/cloud-builders/kubectl'
-#   id: Deploy
-#   args:
-#   - 'apply'
-#   - '-f'
-#   - 'deployment.yaml'
-#   env:
-#   - 'CLOUDSDK_COMPUTE_ZONE=europe-north1-a'
-#   - 'CLOUDSDK_CONTAINER_CLUSTER=shinyhampster'
-#   - 'PROJECT_ID=$PROJECT_ID'
-#   - 'SHORT_SHA=$SHORT_SHA'
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: Deploy
+  args:
+  - 'apply'
+  - '-f'
+  - 'deployment.yaml'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=europe-north1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=shinyhampster'
+  - 'PROJECT_ID=$PROJECT_ID'
+  - 'SHORT_SHA=$SHORT_SHA'
 
 # Update Deploy
 - name: 'gcr.io/cloud-builders/kubectl'
