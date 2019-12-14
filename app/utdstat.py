@@ -19,7 +19,7 @@ TOOLTIPS=[
     ("Foreldrenes utdanning", "@foreldrenes_utdanningsniva")
 ]
 
-df = pd.read_csv('/app/df.csv', sep=";")
+df = pd.read_csv('df.csv', sep=";")
 df['aar'] = df['intervall_ar'].str[0:4].astype(int)
 
 def callback(attr, old, new):
