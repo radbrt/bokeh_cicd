@@ -39,7 +39,7 @@ def bokehapp(doc):
             source = ColumnDataSource(data=dfgroup)
             p.line(x="aar", y="elever", color=color, source=source, line_width=3)
         
-        layout.children[1] = p
+        layout = row(controls, p)
 
 
     kjonnselect = Select(title="Kjønn", value="Begge kjønn", options=sorted(set(df['kjonn'])))
