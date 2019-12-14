@@ -3,27 +3,27 @@ steps:
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:$SHORT_SHA', '-t', 'gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:latest', '.' ]
 
 # Initial Deployment
-- name: 'gcr.io/cloud-builders/kubectl'
-  id: Deploy
-  args:
-  - 'apply'
-  - '-f'
-  - 'deployment.yaml'
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=europe-north1-a'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=shinyhampster'
-  - 'PROJECT_ID=$PROJECT_ID'
-  - 'SHORT_SHA=$SHORT_SHA'
-
-# Update Deploy
 # - name: 'gcr.io/cloud-builders/kubectl'
 #   id: Deploy
-#   args: ['set', 'image', 'deployment/bokehweb', 'shiny=gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:$SHORT_SHA']
+#   args:
+#   - 'apply'
+#   - '-f'
+#   - 'deployment.yaml'
 #   env:
-#     - 'CLOUDSDK_COMPUTE_ZONE=europe-north1-a'
-#     - 'CLOUDSDK_CONTAINER_CLUSTER=shinyhampster'
-#     - 'PROJECT_ID=$PROJECT_ID'
-#     - 'SHORT_SHA=$SHORT_SHA'
+#   - 'CLOUDSDK_COMPUTE_ZONE=europe-north1-a'
+#   - 'CLOUDSDK_CONTAINER_CLUSTER=shinyhampster'
+#   - 'PROJECT_ID=$PROJECT_ID'
+#   - 'SHORT_SHA=$SHORT_SHA'
+
+Update Deploy
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: Deploy
+  args: ['set', 'image', 'deployment/bokehweb', 'shiny=gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:$SHORT_SHA']
+  env:
+    - 'CLOUDSDK_COMPUTE_ZONE=europe-north1-a'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=shinyhampster'
+    - 'PROJECT_ID=$PROJECT_ID'
+    - 'SHORT_SHA=$SHORT_SHA'
 
 images:
   - 'gcr.io/$PROJECT_ID/github.com/radbrt/bokeh_cicd:$SHORT_SHA'
